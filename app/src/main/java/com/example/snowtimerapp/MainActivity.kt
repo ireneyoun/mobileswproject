@@ -138,7 +138,7 @@ fun LoginScreen() {
             }
         }
 
-        Spacer(modifier = Modifier.height(80.dp))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Button(
             onClick = {},
