@@ -111,7 +111,7 @@ fun SignUpEmailScreen(navController: NavController) {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview() {
+fun EmailPreview() {
     SnowTimerAppTheme {
         val navController = rememberNavController()
         SignUpEmailScreen(navController = navController)
