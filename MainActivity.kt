@@ -1,15 +1,12 @@
 package com.example.snowtimerapp
 
-import GroupDetailScreen
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,12 +17,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.snowtimerapp.ui.components.BottomNavBar
 import com.example.snowtimerapp.ui.screens.auth.LoginScreen
 import com.example.snowtimerapp.ui.screens.auth.SignUpEmailScreen
+import com.example.snowtimerapp.ui.screens.groups.GroupDetailScreen
 import com.example.snowtimerapp.ui.screens.groups.GroupListScreen
 import com.example.snowtimerapp.ui.screens.home.HomeTimerScreen
-import com.example.snowtimerapp.ui.screens.home.HomeTodoScreen
 import com.example.snowtimerapp.ui.screens.search.SearchScreen
 import com.example.snowtimerapp.ui.theme.SnowTimerAppTheme
 
