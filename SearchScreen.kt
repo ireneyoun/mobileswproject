@@ -21,6 +21,7 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +45,10 @@ fun SearchScreen(
 
     Scaffold(
         topBar = {
-            MyTopAppBar(title = "과목 검색")
+            Column {
+                MyTopAppBar(title = "과목 검색")
+                HorizontalDivider(color = Color.LightGray)
+            }
         },
         bottomBar = {
             Column {
@@ -61,9 +65,12 @@ fun SearchScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
+                .padding(20.dp)
                 .fillMaxSize()
         ) {
-            Row {
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Box(
                     modifier = Modifier
                         .weight(1f)
@@ -76,20 +83,33 @@ fun SearchScreen(
                     Row(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "검색",
-                            tint = Color.Gray
-                        )
                         TextField(
                             value = query,
                             onValueChange = { query = it },
                             placeholder = { Text("검색") },
-                            modifier = Modifier.fillMaxWidth(),
-                            singleLine = true
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.Search,
+                                    contentDescription = "검색",
+                                    tint = Color.Gray,
+                                    modifier = Modifier
+                                        .padding(start = 10.dp)
+                                )
+                            },
+                            modifier = Modifier
+                                .weight(1f)
+                                .background(Color.Transparent),
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.Transparent,
+                                unfocusedContainerColor = Color.Transparent,
+                                unfocusedIndicatorColor = Color.Transparent,
+                                focusedIndicatorColor = Color.Transparent
+                            )
                         )
                     }
                 }
+
+                Spacer(modifier = Modifier.width(10.dp))
 
                 Text(
                     text = "취소",
@@ -122,16 +142,10 @@ fun SearchScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            if (query.isBlank()) {
-                Text(
-                    text = "검색어를 입력하세요.",
-                    color = Color.Gray
-                )
-            } else {
+            if (query.isNotBlank())
                 Text(
                     text = "$query 검색 결과 (${selected})"
                 )
-            }
         }
     }
 }
