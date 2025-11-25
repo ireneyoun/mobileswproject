@@ -45,49 +45,15 @@ import com.example.snowtimerapp.ui.components.BottomNavBar
 import com.example.snowtimerapp.ui.components.FloatingButton
 import kotlinx.coroutines.delay
 
-//data class StudyItem(
-//    val title: String,
-//    var isRunning: Boolean = false,
-//    var seconds: Int = 0,
-//    var todos: MutableList<String> = mutableListOf()
-//)
-
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun HomeTimerScreen(
     navController: NavHostController,
     timerViewModel: TimerViewModel = viewModel()
 ) {
-//    var studyItems by remember {
-//        mutableStateOf(
-//            listOf(
-//                StudyItem("알고리즘"),
-//                StudyItem("컴퓨터네트워크"),
-//                StudyItem("데이터베이스셜계와질의"),
-//                StudyItem("모바일소프트웨어"),
-//                StudyItem("소프트웨어공학"),
-//                StudyItem("딥러닝개론")
-//            )
-//        )
-//    }
-
     var studyItems = timerViewModel.studyItems
     val totalSeconds = studyItems.sumOf { it.seconds }
     var isTimerSelected by remember { mutableStateOf(true) }
-
-//    LaunchedEffect(studyItems) {
-//        while (true) {
-//            delay(1000L)
-//            studyItems = studyItems.map {
-//                if (it.isRunning)
-//                    it.copy(seconds = it.seconds + 1)
-//                else
-//                    it
-//            }
-//        }
-//        timerViewModel.updateTotalSeconds(studyItems.sumOf { it.seconds })
-//    }
-
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route ?: "home"
     var bottomPaddingValue by remember { mutableStateOf(0.dp) }
@@ -240,12 +206,6 @@ fun HomeTimerScreen(
                                 StudyTimerItem(
                                     item = item,
                                     onToggle = {
-//                                        studyItems = studyItems.map {
-//                                            if (it.title == item.title)
-//                                                it.copy(isRunning = !it.isRunning)
-//                                            else
-//                                                it
-//                                        }
                                         timerViewModel.toggleTimer(item.title)
                                     }
                                 )
