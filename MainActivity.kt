@@ -14,15 +14,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.snowtimerapp.ui.screens.auth.LoginScreen
 import com.example.snowtimerapp.ui.screens.auth.SignUpEmailScreen
+import com.example.snowtimerapp.ui.screens.groups.GroupAddScreen
 import com.example.snowtimerapp.ui.screens.groups.GroupDetailScreen
 import com.example.snowtimerapp.ui.screens.groups.GroupListScreen
 import com.example.snowtimerapp.ui.screens.home.HomeTimerScreen
+import com.example.snowtimerapp.ui.screens.home.TimerViewModel
 import com.example.snowtimerapp.ui.screens.search.SearchScreen
+import com.example.snowtimerapp.ui.screens.home.TimerPlayScreen
 import com.example.snowtimerapp.ui.theme.SnowTimerAppTheme
 
 val wooju = FontFamily(Font(R.font.wooju))
@@ -34,6 +38,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             SnowTimerAppTheme {
                 val navController = rememberNavController()
+                val timerViewModel: TimerViewModel = viewModel()
+
                 Scaffold(
                     containerColor = Color.White
                 ) { paddingValues ->
@@ -63,10 +69,16 @@ class MainActivity : ComponentActivity() {
                                 GroupListScreen(navController = navController)
                             }
                             composable("group_detail/{groupName}") { backStackEntry ->
-                                val groupName = backStackEntry.arguments?.getString("groupName") ?: ""
-                                GroupDetailScreen(navController = navController, groupName = groupName)
+                                val name = backStackEntry.arguments?.getString("groupName") ?: ""
+                                GroupDetailScreen(navController, name, timerViewModel)
                             }
-
+                            composable("group_add") {
+                                GroupAddScreen(navController)
+                            }
+                            composable("timer_play/{itemId}") { backStackEntry ->
+                                val id = backStackEntry.arguments?.getString("itemId") ?: ""
+                                TimerPlayScreen(id, navController, timerViewModel)
+                            }
                         }
                     }
                 }

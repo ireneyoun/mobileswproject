@@ -29,10 +29,8 @@ import com.example.snowtimerapp.ui.screens.home.formatTime
 fun GroupDetailScreen(
     navController: NavHostController,
     groupName: String,
-    timerViewModel: TimerViewModel = viewModel()
+    timerViewModel: TimerViewModel
 ) {
-    val totalSeconds = timerViewModel.totalSeconds
-
     Scaffold(
         topBar = {
             Row(

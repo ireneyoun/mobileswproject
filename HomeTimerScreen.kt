@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
@@ -51,8 +52,8 @@ fun HomeTimerScreen(
     navController: NavHostController,
     timerViewModel: TimerViewModel = viewModel()
 ) {
-    var studyItems = timerViewModel.studyItems
-    val totalSeconds = studyItems.sumOf { it.seconds }
+    val studyItems by timerViewModel.studyItems.collectAsState()
+    val totalSeconds by timerViewModel.currentRunningTime.collectAsState()
     var isTimerSelected by remember { mutableStateOf(true) }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route ?: "home"
@@ -70,7 +71,7 @@ fun HomeTimerScreen(
                 }
             },
             containerColor = Color.White,
-             modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) { paddingValues ->
             bottomPaddingValue = paddingValues.calculateBottomPadding()
 
@@ -202,11 +203,17 @@ fun HomeTimerScreen(
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            items(studyItems) { item ->
+                            items(
+                                items = studyItems,
+                                key = { item -> item.title }
+                            ) { item ->
                                 StudyTimerItem(
                                     item = item,
-                                    onToggle = {
-                                        timerViewModel.toggleTimer(item.title)
+                                    onPlay = {
+                                        navController.navigate("timer_play/${item.title}")
+                                    },
+                                    onNavigateGroup = {
+                                        navController.navigate("group_select/${item.title}")
                                     }
                                 )
                             }
@@ -215,7 +222,7 @@ fun HomeTimerScreen(
                         HomeTodoScreen(
                             studyItems = studyItems,
                             onUpdateItems = { updated ->
-                                studyItems = updated
+                                timerViewModel.updateStudyItems(updated)
                             }
                         )
                     }

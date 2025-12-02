@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.PauseCircleFilled
 import androidx.compose.material.icons.filled.PlayCircleFilled
-import androidx.compose.material.icons.filled.Start
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,7 +38,7 @@ import androidx.compose.ui.zIndex
 @Composable
 fun StudyTimerItem(
     item: StudyItem,
-    onToggle: () -> Unit,
+    onPlay: () -> Unit,
     onNavigateGroup: () -> Unit = {}
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -56,7 +53,6 @@ fun StudyTimerItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            //.padding(vertical = 4.dp)
             .height(50.dp)
     ) {
         AnimatedVisibility(
@@ -90,7 +86,7 @@ fun StudyTimerItem(
                 .offset(x = animatedOffsetDp)
                 .zIndex(0f)
                 .background(Color.White)
-                .pointerInput(Unit) {
+                .pointerInput(item) {
                     detectHorizontalDragGestures(
                         onDragEnd = {
                             offsetXPx = if (offsetXPx < -maxSwipePx / 2f) -maxSwipePx else 0f
@@ -107,16 +103,15 @@ fun StudyTimerItem(
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(
-                    onClick = onToggle,
+                    onClick = {
+                        onPlay()
+                    },
                     modifier = Modifier
                         .padding(10.dp)
                         .size(30.dp)
                 ) {
                     Icon(
-                        imageVector = if (item.isRunning)
-                            Icons.Default.PauseCircleFilled
-                        else
-                            Icons.Default.PlayCircleFilled,
+                        imageVector = Icons.Default.PlayCircleFilled,
                         contentDescription = "공부 타이머",
                         tint = Color.Black,
                         modifier = Modifier.size(30.dp)
@@ -136,7 +131,6 @@ fun StudyTimerItem(
             )
         }
 
-        // 다이얼로그
         if (showDialog) {
             AlertDialog(
                 onDismissRequest = { showDialog = false },
