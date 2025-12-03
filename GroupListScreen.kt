@@ -34,6 +34,7 @@ import com.example.snowtimerapp.ui.components.MyTopAppBar
 
 data class Group(
     val name: String,
+    val enrolled: String,
     val category: String,
     val memberCount: Int
 )
@@ -42,24 +43,34 @@ data class Group(
 fun GroupListScreen(
     navController: NavHostController
 ) {
-    val categories = listOf("전체", "알고리즘", "컴퓨터네트워크", "모바일소프트웨어")
+    val categories = listOf("전체", "가입한 그룹")
     val allGroups = listOf(
-        Group("스터디 그룹 A", "알고리즘", 5),
-        Group("스터디 그룹 B", "알고리즘", 3),
-        Group("스터디 그룹 C", "컴퓨터네트워크", 4),
-        Group("스터디 그룹 D", "모바일소프트웨어", 6)
+        Group("스터디 그룹 A", "가입", "알고리즘", 5),
+        Group("스터디 그룹 B", "미가입", "알고리즘", 3),
+        Group("스터디 그룹 C", "미가입", "컴퓨터네트워크", 4),
+        Group("스터디 그룹 D", "가입", "모바일소프트웨어", 6)
     )
     var selectedCategory by remember { mutableStateOf("전체") }
     var menuExpanded by remember { mutableStateOf(false) }
-    val filteredGroups = if (selectedCategory == "전체") {
-        allGroups
-    } else {
-        allGroups.filter { it.category == selectedCategory }
+    val filteredGroups = when (selectedCategory) {
+        "전체" -> allGroups
+        "가입한 그룹" -> allGroups.filter { it.enrolled == "가입" }
+        else -> allGroups
     }
 
     Scaffold(
+        floatingActionButton = {
+            FloatingGroupButton(
+                onConfirmAdd = {
+                    navController.navigate("group_add")
+                }
+            )
+        },
         topBar = {
-            MyTopAppBar(title = "가입한 그룹")
+            Column {
+                MyTopAppBar(title = "스터디 그룹")
+                HorizontalDivider(color = Color.LightGray)
+            }
         },
         bottomBar = {
             Column {
