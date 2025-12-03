@@ -212,6 +212,7 @@ fun HomeTimerScreen(
                                     onPlay = {
                                         navController.navigate("timer_play/${item.title}")
                                     },
+                                    textColor = Color.Black,  // 이거 하나만 추가
                                     onNavigateGroup = {
                                         navController.navigate("group_select/${item.title}")
                                     }

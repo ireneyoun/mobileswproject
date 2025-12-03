@@ -37,8 +37,9 @@ import androidx.compose.ui.zIndex
 
 @Composable
 fun StudyTimerItem(
+    textColor: Color,  // 이거 추가
     item: StudyItem,
-    onPlay: () -> Unit,
+    onPlay: (() -> Unit)? = null,
     onNavigateGroup: () -> Unit = {}
 ) {
     var showDialog by remember { mutableStateOf(false) }
@@ -102,30 +103,32 @@ fun StudyTimerItem(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(
-                    onClick = {
-                        onPlay()
-                    },
-                    modifier = Modifier
-                        .padding(10.dp)
-                        .size(30.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.PlayCircleFilled,
-                        contentDescription = "공부 타이머",
-                        tint = Color.Black,
-                        modifier = Modifier.size(30.dp)
-                    )
+                if (onPlay != null) {
+                    IconButton(
+                        onClick = onPlay,
+                        modifier = Modifier
+                            .padding(10.dp)
+                            .size(30.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PlayCircleFilled,
+                            contentDescription = "공부 타이머",
+                            tint = Color.Black,
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
                 }
 
                 Text(
                     text = item.title,
+                    color = textColor,  // 이거 추가
                     fontSize = 18.sp
                 )
             }
 
             Text(
                 text = formatTime(item.seconds),
+                color = textColor,  // 이거 추가
                 fontSize = 20.sp,
                 modifier = Modifier.padding(end = 10.dp)
             )

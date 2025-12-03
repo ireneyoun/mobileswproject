@@ -66,6 +66,7 @@ fun TimerPlayScreen(
     val totalSeconds by timerViewModel.currentRunningTime.collectAsState()
     var isGroupSelected by remember { mutableStateOf(true) }
     val studyItems by timerViewModel.studyItems.collectAsState()
+    val currentItem = studyItems.find { it.title == itemId }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -90,7 +91,7 @@ fun TimerPlayScreen(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .background(Color.LightGray),
+                        .background(Color.Gray),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Column(
@@ -101,7 +102,7 @@ fun TimerPlayScreen(
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "총 공부 시간",
+                            text = "${currentItem?.title ?: ""}",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Medium,
                             color = Color.White
@@ -111,7 +112,7 @@ fun TimerPlayScreen(
 
                         Row {
                             Text(
-                                text = formatTime(totalSeconds),
+                                text = "${formatTime(currentItem?.seconds ?: 0)}",
                                 fontSize = 40.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.White
@@ -129,8 +130,13 @@ fun TimerPlayScreen(
                                 )
                             }
                         }
-                    }
 
+                        Text(
+                            text = "총 공부 시간   ${formatTime(totalSeconds)}",
+                            fontSize = 16.sp,
+                            color = Color.White
+                        )
+                    }
                 }
 
                 Row(
@@ -234,14 +240,17 @@ fun TimerPlayScreen(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(10.dp)
+                                .padding(start = 10.dp, end = 10.dp)
                         ) {
                             items(
                                 items = studyItems,
                                 key = { item -> item.title }
                             ) { item ->
+                                val textColor = if (item.title == itemId) Color.Black else Color.Gray
                                 StudyTimerItem(
                                     item = item,
                                     onPlay = null,
+                                    textColor = textColor,
                                     onNavigateGroup = {
                                         navController.navigate("group_select/${item.title}")
                                     }
