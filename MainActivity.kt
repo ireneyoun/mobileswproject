@@ -27,6 +27,7 @@ import com.example.snowtimerapp.ui.screens.home.HomeTimerScreen
 import com.example.snowtimerapp.ui.screens.home.TimerViewModel
 import com.example.snowtimerapp.ui.screens.search.SearchScreen
 import com.example.snowtimerapp.ui.screens.home.TimerPlayScreen
+import com.example.snowtimerapp.ui.screens.setting.SettingScreen
 import com.example.snowtimerapp.ui.theme.SnowTimerAppTheme
 
 val wooju = FontFamily(Font(R.font.wooju))
@@ -78,6 +79,10 @@ class MainActivity : ComponentActivity() {
                             composable("timer_play/{itemId}") { backStackEntry ->
                                 val id = backStackEntry.arguments?.getString("itemId") ?: ""
                                 TimerPlayScreen(id, navController, timerViewModel)
+                            }
+                            // 여기 추가
+                            composable("settings") {
+                                SettingScreen(navController = navController)
                             }
                         }
                     }
