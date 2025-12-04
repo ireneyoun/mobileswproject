@@ -1,5 +1,6 @@
 package com.example.snowtimerapp.ui.screens.groups
 
+import android.R.attr.enabled
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -256,8 +257,12 @@ fun GroupListScreen(
                 groupName = group.name,
                 onDismiss = { showGroupDialog = false },
                 onConfirm = { password ->
-                    println("Attempting to join ${group.name} with password: $password")
-                    showGroupDialog = false
+                    if (password == "1234") { // 임의로 가정
+                        showGroupDialog = false
+                        navController.navigate("group_detail/${group.name}")
+                    } else {
+                        println("Password mismatch for ${group.name}")
+                    }
                 }
             )
         } else {
@@ -265,7 +270,10 @@ fun GroupListScreen(
                 groupName = group.name,
                 subjectName = group.subject,
                 onDismiss = { showGroupDialog = false },
-                onConfirm = { showGroupDialog = false }
+                onConfirm = {
+                    showGroupDialog = false
+                    navController.navigate("group_detail/${group.name}")
+                }
             )
         }
     }
@@ -302,6 +310,7 @@ fun PrivateGroupDialog(
     onConfirm: (String) -> Unit
 ) {
     var passwordInput by remember { mutableStateOf("") }
+    var isPasswordIncorrect by remember { mutableStateOf(false) }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -314,15 +323,32 @@ fun PrivateGroupDialog(
                 Spacer(modifier = Modifier.height(16.dp))
                 TextField(
                     value = passwordInput,
-                    onValueChange = { passwordInput = it },
+                    onValueChange = {
+                        passwordInput = it
+                        isPasswordIncorrect = false
+                    },
                     label = { Text("비밀번호") },
-                    singleLine = true
+                    singleLine = true,
+                    isError = isPasswordIncorrect
                 )
+                if (isPasswordIncorrect) {
+                    Text(
+                        text = "비밀번호가 일치하지 않습니다.",
+                        color = Color.Red,
+                        fontSize = 12.sp
+                    )
+                }
             }
         },
         confirmButton = {
             TextButton(
-                onClick = { onConfirm(passwordInput) },
+                onClick = {
+                    if (passwordInput == "1234") { // 임의로 설정
+                        onConfirm(passwordInput)
+                    } else {
+                        isPasswordIncorrect = true
+                    }
+                },
                 enabled = passwordInput.isNotBlank()
             ) {
                 Text("확인")
