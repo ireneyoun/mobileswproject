@@ -7,8 +7,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.PermIdentity
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
@@ -18,12 +20,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.snowtimerapp.ui.screens.home.TimerViewModel
 import com.example.snowtimerapp.ui.screens.home.formatTime
+import com.example.snowtimerapp.ui.screens.search.SearchScreen
 
 @Composable
 fun GroupDetailScreen(
@@ -31,6 +35,8 @@ fun GroupDetailScreen(
     groupName: String,
     timerViewModel: TimerViewModel
 ) {
+    val totalSeconds = timerViewModel.totalSeconds
+
     Scaffold(
         topBar = {
             Row(
@@ -67,12 +73,54 @@ fun GroupDetailScreen(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
+                .fillMaxWidth()
         ) {
-            Text(
-                text = "그룹 상세 화면",
-                modifier = Modifier.padding(16.dp)
-            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                repeat(3) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PermIdentity,
+                            contentDescription = "아이콘",
+                            modifier = Modifier.size(80.dp)
+                        )
+                        Text(
+                            text = formatTime(totalSeconds),
+                            fontSize = 18.sp
+                        )
+                    }
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .padding(top = 20.dp)
+                    .fillMaxWidth()
+            ) {
+                repeat(3) {
+                    Column(
+                        modifier = Modifier
+                            .weight(1f),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.PermIdentity,
+                            contentDescription = "아이콘",
+                            modifier = Modifier.size(80.dp)
+                        )
+                        Text(
+                            text = formatTime(totalSeconds),
+                            fontSize = 18.sp
+                        )
+                    }
+                }
+            }
         }
     }
 }
