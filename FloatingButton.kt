@@ -40,9 +40,13 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun FloatingButton(bottomNavPadding: Dp) {
+fun FloatingButton(
+    bottomNavPadding: Dp,
+    navController: NavHostController
+) {
     var expanded by remember { mutableStateOf(false) }
     val rotation by animateFloatAsState(targetValue = if (expanded) 90f else 0f, label = "rotationAnimation")
     val fab1Offset: Dp by animateDpAsState(
@@ -96,9 +100,12 @@ fun FloatingButton(bottomNavPadding: Dp) {
                 ) + fadeOut(animationSpec = tween(durationMillis = duration))
             ) {
                 FloatingActionButton(
-                    onClick = {},
-                    containerColor = Color.Red,
-                    contentColor = Color.White,
+                    onClick = {
+                        expanded = false
+                        navController.navigate("question_board")
+                    },
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
                     shape = CircleShape,
                     modifier = Modifier
                         .offset(y = -fab2Offset)
@@ -129,9 +136,12 @@ fun FloatingButton(bottomNavPadding: Dp) {
                 ) + fadeOut(animationSpec = tween(durationMillis = duration, delayMillis = 50))
             ) {
                 FloatingActionButton(
-                    onClick = {},
-                    containerColor = Color.Green,
-                    contentColor = Color.White,
+                    onClick = {
+                        expanded = false
+                        navController.navigate("calendar")
+                    },
+                    containerColor = Color.White,
+                    contentColor = Color.Black,
                     shape = CircleShape,
                     modifier = Modifier
                         .offset(y = -fab1Offset)
