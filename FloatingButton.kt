@@ -99,7 +99,7 @@ fun FloatingButton(
                     targetOffsetY = { with(density) { fab2Offset.roundToPx() } }
                 ) + fadeOut(animationSpec = tween(durationMillis = duration))
             ) {
-                FloatingActionButton(
+                FloatingActionButton( // 수정된 부분
                     onClick = {
                         expanded = false
                         navController.navigate("question_board")
@@ -135,7 +135,7 @@ fun FloatingButton(
                     targetOffsetY = { with(density) { fab1Offset.roundToPx() } }
                 ) + fadeOut(animationSpec = tween(durationMillis = duration, delayMillis = 50))
             ) {
-                FloatingActionButton(
+                FloatingActionButton( // 수정된 부분
                     onClick = {
                         expanded = false
                         navController.navigate("calendar")
