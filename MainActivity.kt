@@ -141,6 +141,7 @@ fun SnowTimerNavHost(navController: NavHostController, timerViewModel: TimerView
                 composable("settings") {
                     SettingScreen(navController = navController)
                 }
+                // 수정된 부분
                 composable("calendar") {
                     CalendarScreen(navController)
                 }
